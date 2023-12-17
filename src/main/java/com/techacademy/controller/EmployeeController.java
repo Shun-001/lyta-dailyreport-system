@@ -124,39 +124,22 @@ public class EmployeeController {
     @PostMapping(value = "/{code}/update")
     public String update(@Validated Employee employee, BindingResult res, Model model) {
 
+        model.addAttribute("employee", employee);
+
         // エラーあり
         if (res.hasErrors()) {
-            // return edit(employee.getCode(), model);
-            return edit(employee.getCode(), model);
+            return "employees/update";
         }
 
         ErrorKinds result = employeeService.updateDetail(employee);
-/*
+
         if (ErrorMessage.contains(result)) {
             model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
             return edit(employee.getCode(), model);
         }
-*/
-        employeeService.updateDetail(employee);
-
-        // 更新処理では論理削除を行った従業員番号を指定することは基本的に無いため、以下の処理は不要？
-/*
-        try {
-            ErrorKinds result = employeeService.save(employee);
-
-            if (ErrorMessage.contains(result)) {
-                model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
-                return edit(employee.getCode(), model);
-            }
-
-        } catch (DataIntegrityViolationException e) {
-            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_EXCEPTION_ERROR),
-                    ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_EXCEPTION_ERROR));
-            return edit(employee.getCode(), model);
-        }
-*/
+        System.out.println(employee);
         return "redirect:/employees";
-    }
 
+    }
 
 }

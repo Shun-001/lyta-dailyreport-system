@@ -72,24 +72,24 @@ public class EmployeeService {
     // 従業員更新
     @Transactional
     public ErrorKinds updateDetail(Employee employee) {
-
+        LocalDateTime tempCreatedAt = employee.getCreatedAt();
+        String tempPassword = employee.getPassword();
         // パスワードチェック
-        ErrorKinds result = employeePasswordCheck(employee);
-        if (ErrorKinds.CHECK_OK != result) {
-            return result;
+        // 空白を判断
+        if ("".equals(employee.getPassword())) {
+            System.out.println("パスワードが空");
+        } else {
+            ErrorKinds result = employeePasswordCheck(employee);
+            if (ErrorKinds.CHECK_OK != result) {
+                return result;
+            }
         }
 
-        // 従業員番号重複チェック(不要な処理)
-/*
-        if (findByCode(employee.getCode()) != null) {
-            return ErrorKinds.DUPLICATE_ERROR;
-        }
-*/
         employee.setDeleteFlg(false);
 
         LocalDateTime now = LocalDateTime.now();
-        // employee.setCreatedAt(now);
         employee.setUpdatedAt(now);
+        employee.setCreatedAt(now);
 
         employeeRepository.save(employee);
         return ErrorKinds.SUCCESS;
