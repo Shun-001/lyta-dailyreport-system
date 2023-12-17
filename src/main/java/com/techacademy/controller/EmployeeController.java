@@ -123,21 +123,19 @@ public class EmployeeController {
     // 従業員更新処理
     @PostMapping(value = "/{code}/update")
     public String update(@Validated Employee employee, BindingResult res, Model model) {
-
         model.addAttribute("employee", employee);
 
-        // エラーあり
+        ErrorKinds result = employeeService.updateDetail(employee);
+        // パスワードの入力チェック
+        if (ErrorMessage.contains(result)) {
+            model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
+            return "employees/update";
+        }
+        // 氏名の入力チェック
         if (res.hasErrors()) {
             return "employees/update";
         }
-
-        ErrorKinds result = employeeService.updateDetail(employee);
-
-        if (ErrorMessage.contains(result)) {
-            model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
-            return edit(employee.getCode(), model);
-        }
-        System.out.println(employee);
+        // エラー無しで詳細画面へリダイレクト
         return "redirect:/employees";
 
     }
