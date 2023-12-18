@@ -79,7 +79,6 @@ public class EmployeeService {
             System.out.println("パスワードが空");
             // データベースのパスワードをパスワードに代入
             employee.setPassword(findByCode(employee.getCode()).getPassword());
-
         } else {
             ErrorKinds result = employeePasswordCheck(employee);
             if (ErrorKinds.CHECK_OK != result) {

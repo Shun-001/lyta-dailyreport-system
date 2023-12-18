@@ -123,19 +123,28 @@ public class EmployeeController {
     // 従業員更新処理
     @PostMapping(value = "/{code}/update")
     public String update(@Validated Employee employee, BindingResult res, Model model) {
-        model.addAttribute("employee", employee);
 
-        ErrorKinds result = employeeService.updateDetail(employee);
-        // パスワードの入力チェック
-        if (ErrorMessage.contains(result)) {
-            model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
-            return "employees/update";
-        }
-        // 氏名の入力チェック
+        // 入力チェック
         if (res.hasErrors()) {
             return "employees/update";
         }
-        // エラー無しで詳細画面へリダイレクト
+
+        // 論理削除を行った従業員番号を指定すると例外となるためtry~catchで対応
+        // (findByIdでは削除フラグがTRUEのデータが取得出来ないため)
+        try {
+            ErrorKinds result = employeeService.updateDetail(employee);
+
+            if (ErrorMessage.contains(result)) {
+                model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
+                return "employees/update";
+            }
+
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_EXCEPTION_ERROR),
+                    ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_EXCEPTION_ERROR));
+            return "employees/update";
+        }
+
         return "redirect:/employees";
 
     }
