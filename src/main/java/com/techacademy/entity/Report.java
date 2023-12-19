@@ -1,4 +1,3 @@
-
 package com.techacademy.entity;
 
 import java.time.LocalDateTime;
@@ -8,8 +7,6 @@ import org.hibernate.validator.constraints.Length;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
@@ -17,46 +14,37 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "employees")
+@Table(name = "reports")
 @SQLRestriction("delete_flg = false")
-public class Employee {
+public class Report {
 
-    public static enum Role {
-        GENERAL("一般"), ADMIN("管理者");
+    // ID
+    // @Id
+    @NotEmpty
+    private int id;
 
-        private String name;
+    // 日付
+    @Column(nullable = false)
+    private LocalDateTime report_date;
 
-        private Role(String name) {
-            this.name = name;
-        }
+    // タイトル
+    @Column(length = 100, nullable = false)
+    @NotEmpty
+    @Length(max = 20)
+    private String title;
 
-        public String getValue() {
-            return this.name;
-        }
-    }
+    // 内容
+    @Column(length = 20, nullable = false)
+    @NotEmpty
+    @Length(max = 100)
+    private String content;
 
     // ID
     @Id
     @Column(length = 10)
     @NotEmpty
     @Length(max = 10)
-// テーブル結合用のアノテーションが必要
-    private String code;
-
-    // 名前
-    @Column(length = 20, nullable = false)
-    @NotEmpty
-    @Length(max = 20)
-    private String name;
-
-    // 権限
-    @Column(columnDefinition="VARCHAR(10)", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    // パスワード
-    @Column(length = 255, nullable = false)
-    private String password;
+    private String employee_code;
 
     // 削除フラグ(論理削除を行うため)
     @Column(columnDefinition="TINYINT", nullable = false)
