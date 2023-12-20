@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.techacademy.constants.ErrorKinds;
-import com.techacademy.controller.ReportController;
 import com.techacademy.entity.Report;
 import com.techacademy.repository.ReportRepository;
 
@@ -101,7 +100,7 @@ public class ReportService {
     public Report findById(int id) {
         // findByIdで検索
         String strId = String.valueOf(id);
-        Optional<Report> option = reportRepository.findById(strId);
+        Optional<Report> option = reportRepository.findById(id);
         // 取得できなかった場合はnullを返す
         Report report = option.orElse(null);
         return report;

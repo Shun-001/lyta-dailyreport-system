@@ -40,10 +40,10 @@ public class ReportController {
 
     // 日報詳細画面
     @GetMapping(value = "/{id}/")
-    public String detail(@PathVariable int id, Model model) {
+    public String detail(@PathVariable Integer id, Model model) {
 
         model.addAttribute("report", reportService.findById(id));
-        return "report/detail";
+        return "reports/detail";
     }
 
     // 日報新規登録画面
@@ -83,7 +83,7 @@ public class ReportController {
 
     // 日報削除処理
     @PostMapping(value = "/{id}/delete")
-    public String delete(@PathVariable int id, Model model) {
+    public String delete(@PathVariable Integer id, Model model) {
 
         ErrorKinds result = reportService.delete(id);
 
@@ -99,7 +99,7 @@ public class ReportController {
 
     // 日報更新画面
     @GetMapping(value = "/{id}/update")
-    public String edit(@PathVariable int id, Model model) {
+    public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("report", reportService.findById(id));
         return "reports/update";
     }
