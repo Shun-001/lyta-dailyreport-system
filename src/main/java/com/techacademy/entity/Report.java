@@ -26,9 +26,9 @@ public class Report {
 
     // ID
     @Id
-    @NotEmpty
+    //@NotEmpty
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     // 日付
     @Column(nullable = false)
@@ -38,13 +38,13 @@ public class Report {
     // タイトル
     @Column(length = 100, nullable = false)
     @NotEmpty
-    @Length(max = 20)
+    @Length(max = 100)
     private String title;
 
     // 内容
     @Column(length = 20, nullable = false)
     @NotEmpty
-    @Length(max = 100)
+    @Length(max = 600)
     private String content;
 
     // 従業員コード

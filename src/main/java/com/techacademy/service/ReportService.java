@@ -31,12 +31,6 @@ public class ReportService {
     @Transactional
     public ErrorKinds save(Report report) {
 /*
-        // パスワードチェック
-        ErrorKinds result = employeePasswordCheck(employee);
-        if (ErrorKinds.CHECK_OK != result) {
-            return result;
-        }
-
         // 従業員番号重複チェック
         if (findByCode(employee.getCode()) != null) {
             return ErrorKinds.DUPLICATE_ERROR;
@@ -85,6 +79,7 @@ public class ReportService {
         LocalDateTime now = LocalDateTime.now();
         report.setUpdatedAt(now);
         report.setCreatedAt(findById(report.getId()).getCreatedAt());
+        report.setEmployee_code(report.getEmployee_code());
 
         reportRepository.save(report);
         return ErrorKinds.SUCCESS;

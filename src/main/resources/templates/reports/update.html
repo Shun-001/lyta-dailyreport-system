@@ -21,7 +21,6 @@
                                 <div class="card-body">
                                     <form th:action="@{/reports/{id}/update(id=${report.id})}" th:object="${employee}" th:method="post">
                                     <div class="mb-3">
-                                    <!--<label class="form-label" for="code">社員番号</label>-->
                                     <p class="mb-2"></p>
                                     <label type="hidden" id="id" name="id" th:field="${report.id}" th:text="${report.id}"></label>
                                     <p class="mb-1"></p>
@@ -36,12 +35,12 @@
                                             <span th:errors="${report.report_date}" class="text-danger"></span>
                                         </div>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-4">
                                     <label class="form-label" for="name">氏名</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                            <p class="mb-2"></p>
-                                            <label id="code" name="code" th:field="${report.employee.name}" th:text="${report.employee.name}"></label>
+                                            <p class="mb-1"></p>
+                                            <label id="name" name="name" th:field="${report.employee.name}" th:text="${report.employee.name}"></label>
                                         </div>
                                 </div>
                                 <div class="mb-3">
