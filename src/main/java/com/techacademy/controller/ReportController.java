@@ -99,7 +99,7 @@ public class ReportController {
 
     // 日報更新画面
     @GetMapping(value = "/{id}/update")
-    public String edit(@PathVariable Integer id, Model model) {
+    public String edit(@PathVariable int id, Model model) {
         model.addAttribute("report", reportService.findById(id));
         return "reports/update";
     }
@@ -116,7 +116,7 @@ public class ReportController {
         // 論理削除を行った従業員番号を指定すると例外となるためtry~catchで対応
         // (findByIdでは削除フラグがTRUEのデータが取得出来ないため)
         try {
-            ErrorKinds result = reportService.updateDetail(report);
+            ErrorKinds result = reportService.updateReport(report);
 
             if (ErrorMessage.contains(result)) {
                 model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));

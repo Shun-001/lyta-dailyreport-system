@@ -3,8 +3,6 @@ package com.techacademy.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,12 +28,7 @@ public class ReportService {
     // 日報保存
     @Transactional
     public ErrorKinds save(Report report) {
-/*
-        // 従業員番号重複チェック
-        if (findByCode(employee.getCode()) != null) {
-            return ErrorKinds.DUPLICATE_ERROR;
-        }
-*/
+
         report.setDeleteFlg(false);
 
         LocalDateTime now = LocalDateTime.now();
@@ -59,9 +52,9 @@ public class ReportService {
     }
 
 
-    // 従業員更新
+    // 日報更新
     @Transactional
-    public ErrorKinds updateDetail(Report report) {
+    public ErrorKinds updateReport(Report report) {
 /*
         // パスワード空白を判断
         if ("".equals(employee.getPassword())) {
@@ -75,6 +68,7 @@ public class ReportService {
             }
         }
 */
+
         report.setDeleteFlg(false);
         LocalDateTime now = LocalDateTime.now();
         report.setUpdatedAt(now);
@@ -93,8 +87,7 @@ public class ReportService {
 
     // 1件を検索
     public Report findById(int id) {
-        // findByIdで検索
-        String strId = String.valueOf(id);
+        //String strId = String.valueOf(id);
         Optional<Report> option = reportRepository.findById(id);
         // 取得できなかった場合はnullを返す
         Report report = option.orElse(null);
