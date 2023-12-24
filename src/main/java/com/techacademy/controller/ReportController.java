@@ -117,6 +117,16 @@ public class ReportController {
     @GetMapping(value = "/{id}/update")
     public String edit(@PathVariable int id, Model model) {
         model.addAttribute("report", reportService.findById(id));
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        //Principalからログインユーザの情報を取得
+        String userName = auth.getName();
+        // employee_codeをここで代入
+        reportService.findById(id).setEmployee_code(userName);
+        // ログインユーザー名を取得
+        String loginName = employeeService.findByCode(userName).getName();
+        model.addAttribute("loginName", loginName);
+
         return "reports/update";
     }
 
@@ -126,7 +136,7 @@ public class ReportController {
 
         // 入力チェック
         if (res.hasErrors()) {
-            return "reports/update";
+            return edit(report.getId(), model);
         }
 
         // 論理削除を行った従業員番号を指定すると例外となるためtry~catchで対応
@@ -136,13 +146,13 @@ public class ReportController {
 
             if (ErrorMessage.contains(result)) {
                 model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
-                return "reports/update";
+                return edit(report.getId(), model);
             }
 
         } catch (DataIntegrityViolationException e) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_EXCEPTION_ERROR),
                     ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_EXCEPTION_ERROR));
-            return "reports/update";
+            return edit(report.getId(), model);
         }
 
         return "redirect:/reports";

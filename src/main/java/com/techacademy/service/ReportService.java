@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.entity.Report;
+import com.techacademy.repository.EmployeeRepository;
 import com.techacademy.repository.ReportRepository;
 
 @Service
@@ -20,7 +21,7 @@ public class ReportService {
     //private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ReportService(ReportRepository reportRepository, PasswordEncoder passwordEncoder) {
+    public ReportService(ReportRepository reportRepository, EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
         this.reportRepository = reportRepository;
         //this.passwordEncoder = passwordEncoder;
     }
@@ -80,19 +81,25 @@ public class ReportService {
     }
 
 
-    // 従業員一覧表示処理
+    // 日報一覧表示処理
     public List<Report> findAll() {
         return reportRepository.findAll();
     }
 
     // 1件を検索
     public Report findById(int id) {
-        //String strId = String.valueOf(id);
         Optional<Report> option = reportRepository.findById(id);
         // 取得できなかった場合はnullを返す
         Report report = option.orElse(null);
         return report;
     }
+
+    public List<Report> findByEmployee_code(String code) {
+        // TODO 自動生成されたメソッド・スタブ
+        return reportRepository.findByEmployee_code(code);
+    }
+
+
 
 /*
     // 従業員パスワードチェック

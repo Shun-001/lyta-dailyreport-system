@@ -27,7 +27,6 @@ public class Report {
 
     // ID
     @Id
-    //@NotEmpty
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

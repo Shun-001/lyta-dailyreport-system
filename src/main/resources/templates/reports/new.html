@@ -56,8 +56,10 @@
                                         <label class="form-label" for="content">内容</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
+                                            <pre>
                                             <textarea class="form-control" type="text" th:field="*{content}" th:errorclass="err" id="content"></textarea>
                                             <span th:if="${contentError} neq null" th:text="${contentError}" class="text-danger"></span>
+                                            </pre>
                                         </div>
                                     </div>
                                 </div>
