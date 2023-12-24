@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.constants.ErrorMessage;
+import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
+import com.techacademy.service.EmployeeService;
 import com.techacademy.service.ReportService;
 
 @Controller
@@ -24,10 +26,12 @@ import com.techacademy.service.ReportService;
 public class ReportController {
 
     private final ReportService reportService;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public ReportController(ReportService reportService) {
+    public ReportController(ReportService reportService, EmployeeService employeeService) {
         this.reportService = reportService;
+        this.employeeService = employeeService;
     }
 
     // 日報一覧画面
@@ -57,6 +61,9 @@ public class ReportController {
         String userName = auth.getName();
         // employee_codeをここで代入
         report.setEmployee_code(userName);
+        // ログインユーザー名を取得
+        String loginName = employeeService.findByCode(userName).getName();
+        model.addAttribute("loginName", loginName);
 
         return "reports/new";
     }
