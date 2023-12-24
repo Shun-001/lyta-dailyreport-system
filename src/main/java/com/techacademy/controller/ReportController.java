@@ -2,6 +2,8 @@ package com.techacademy.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,7 +50,13 @@ public class ReportController {
 
     // 日報新規登録画面
     @GetMapping(value = "/add")
-    public String create(@ModelAttribute Report report) {
+    public String create(@ModelAttribute Report report, Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        //Principalからログインユーザの情報を取得
+        String userName = auth.getName();
+        // employee_codeをここで代入
+        report.setEmployee_code(userName);
 
         return "reports/new";
     }
@@ -57,9 +65,10 @@ public class ReportController {
     @PostMapping(value = "/add")
     public String add(@Validated Report report, BindingResult res, Model model) {
 
+
         // 入力チェック
         if (res.hasErrors()) {
-            return create(report);
+            return create(report, model);
         }
 
         // 論理削除を行った従業員番号を指定すると例外となるためtry~catchで対応
@@ -69,13 +78,13 @@ public class ReportController {
 
             if (ErrorMessage.contains(result)) {
                 model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
-                return create(report);
+                return create(report, model);
             }
 
         } catch (DataIntegrityViolationException e) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_EXCEPTION_ERROR),
                     ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_EXCEPTION_ERROR));
-            return create(report);
+            return create(report, model);
         }
 
         return "redirect:/reports";

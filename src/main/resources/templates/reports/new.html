@@ -33,8 +33,11 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="name">氏名</label>
                                         <p class="mb-1"></p>
-                                        <label type="hidden" id="name" name="name" th:field="${report.employee_code}" th:text="${report.employee_code}"></label>
-                                        <!--<div class="col-md-7">
+                                        <!--ログイン中のユーザーコード-->
+                                        <p th:text="${employee_code}"></p>
+                                        <input type="hidden" sec:authentication="name" id="employee_code" th:field="*{employee_code}" th:text="${employee_code}"></input>
+                                        <div class="col-md-7">
+                                        <!--
                                             <input class="form-control" type="text" th:field="*{name}" th:errorclass="err" id="name">
                                             <span th:errors="*{name}" class="text-danger"></span>
                                         </div>-->
