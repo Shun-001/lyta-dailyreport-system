@@ -72,6 +72,16 @@ public class ReportController {
     @PostMapping(value = "/add")
     public String add(@Validated Report report, BindingResult res, Model model) {
 
+/*
+        // 日報日付ユーザーダブりチェック
+        if (.equals(employee.getPassword())) {
+            // パスワードが空白だった場合
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.BLANK_ERROR),
+                    ErrorMessage.getErrorValue(ErrorKinds.BLANK_ERROR));
+
+            return create(employee);
+        }
+*/
 
         // 入力チェック
         if (res.hasErrors()) {
@@ -141,6 +151,17 @@ public class ReportController {
     // 日報更新処理
     @PostMapping(value = "/{id}/update")
     public String update(@Validated Report report, BindingResult res, Model model) {
+
+/*
+        // 日報日付ユーザーダブりチェック
+        if ("".equals(employee.getPassword())) {
+            // パスワードが空白だった場合
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.BLANK_ERROR),
+                    ErrorMessage.getErrorValue(ErrorKinds.BLANK_ERROR));
+
+            return create(employee);
+        }
+*/
 
         // 入力チェック
         if (res.hasErrors()) {

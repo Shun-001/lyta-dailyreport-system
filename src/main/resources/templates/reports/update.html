@@ -41,10 +41,7 @@
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
                                             <p class="mb-1"></p>
-
-                                            <!--ログイン中のユーザーコード-->
-                                            <p th:text="${loginUserName}"></p>
-
+                                            <label "form-label" for="name" th:text="*{employee.name}" th:field="*{employee.name}"></label>
                                         </div>
                                 </div>
                                 <div class="mb-3">
