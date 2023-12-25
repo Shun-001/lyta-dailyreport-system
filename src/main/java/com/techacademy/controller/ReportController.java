@@ -62,8 +62,8 @@ public class ReportController {
         // employee_codeをここで代入
         report.setEmployee_code(userName);
         // ログインユーザー名を取得
-        String loginName = employeeService.findByCode(userName).getName();
-        model.addAttribute("loginName", loginName);
+        String loginUserName = employeeService.findByCode(userName).getName();
+        model.addAttribute("loginUserName", loginUserName);
 
         return "reports/new";
     }
@@ -75,8 +75,16 @@ public class ReportController {
 
         // 入力チェック
         if (res.hasErrors()) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String userName = auth.getName();
+            report.setEmployee_code(userName);
+            String loginUserName = employeeService.findByCode(userName).getName();
+            model.addAttribute("loginUserName", loginUserName);
+
+            //return "reports/new";
             return create(report, model);
         }
+
 
         // 論理削除を行った従業員番号を指定すると例外となるためtry~catchで対応
         // (findByIdでは削除フラグがTRUEのデータが取得出来ないため)
@@ -124,8 +132,8 @@ public class ReportController {
         // employee_codeをここで代入
         reportService.findById(id).setEmployee_code(userName);
         // ログインユーザー名を取得
-        String loginName = employeeService.findByCode(userName).getName();
-        model.addAttribute("loginName", loginName);
+        String loginUserName = employeeService.findByCode(userName).getName();
+        model.addAttribute("loginUserName", loginUserName);
 
         return "reports/update";
     }
@@ -136,8 +144,15 @@ public class ReportController {
 
         // 入力チェック
         if (res.hasErrors()) {
-            return edit(report.getId(), model);
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String userName = auth.getName();
+            reportService.findById(report.getId()).setEmployee_code(userName);
+            String loginUserName = employeeService.findByCode(userName).getName();
+            model.addAttribute("loginUserName", loginUserName);
+
+            return "reports/update";
         }
+
 
         // 論理削除を行った従業員番号を指定すると例外となるためtry~catchで対応
         // (findByIdでは削除フラグがTRUEのデータが取得出来ないため)

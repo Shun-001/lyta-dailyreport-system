@@ -43,7 +43,7 @@
                                             <p class="mb-1"></p>
 
                                             <!--ログイン中のユーザーコード-->
-                                            <p th:text="${loginName}"></p>
+                                            <p th:text="${loginUserName}"></p>
 
                                         </div>
                                 </div>
@@ -52,17 +52,15 @@
                                     <p class="mb-1"></p>
                                     <div class="col-md-7">
                                         <input class="form-control" type="text" th:field="*{title}" th:errorclass="err" id="title">
-                                        <span th:if="${titleError} neq null" th:text="${titleError}" class="text-danger"></span>
+                                        <span th:errors="*{title}" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="content">内容</label>
                                     <p class="mb-1"></p>
                                     <div class="col-md-7">
-                                        <pre>
                                         <textarea class="form-control" type="text" th:field="*{content}" th:errorclass="err" id="content"></textarea>
-                                        <span th:if="${contentError} neq null" th:text="${contentError}" class="text-danger"></span>
-                                        </pre>
+                                        <span th:errors="*{content}" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <p class="mt-5">
