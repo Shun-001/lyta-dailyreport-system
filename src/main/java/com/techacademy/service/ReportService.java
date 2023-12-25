@@ -1,5 +1,6 @@
 package com.techacademy.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -95,11 +96,8 @@ public class ReportService {
     }
 
     public List<Report> findByEmployee_code(String code) {
-        // TODO 自動生成されたメソッド・スタブ
         return reportRepository.findByEmployee_code(code);
     }
-
-
 
 /*
     // 従業員パスワードチェック
