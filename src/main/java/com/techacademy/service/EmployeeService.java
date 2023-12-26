@@ -35,6 +35,11 @@ public class EmployeeService {
     @Transactional
     public ErrorKinds save(Employee employee) {
 
+        ErrorKinds result = employeePasswordCheck(employee);
+        if (ErrorKinds.CHECK_OK != result) {
+            return result;
+        }
+
         employee.setDeleteFlg(false);
 
         LocalDateTime now = LocalDateTime.now();
