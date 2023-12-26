@@ -139,16 +139,16 @@ public class ReportController {
     @GetMapping(value = "/{id}/update")
     public String edit(@PathVariable int id, Model model) {
         model.addAttribute("report", reportService.findById(id));
-
+/*
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         //Principalからログインユーザの情報を取得
         String userName = auth.getName();
-        // employee_codeをここで代入
+        // employee_codeをここで代入 -> reportの情報が書き換えられてしまう
         reportService.findById(id).setEmployee_code(userName);
         // ログインユーザー名を取得
         String loginUserName = employeeService.findByCode(userName).getName();
         model.addAttribute("loginUserName", loginUserName);
-
+*/
         return "reports/update";
     }
 
