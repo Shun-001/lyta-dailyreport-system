@@ -2,8 +2,8 @@
 FROM ubuntu:22.04
 
 # command_tutorialディレクトリをルートディレクトリに作成してその中にfirstvi.txtを作成
-RUN mkdir /command_tutorial
-RUN touch /command_tutorial/firstvi.txt
+RUN mkdir /lyta-dailyreport-system
+RUN touch /lyta-dailyreport-system/firstvi.txt
 
 # viのインストール
 RUN apt update
@@ -26,7 +26,7 @@ RUN a2enmod rewrite
 RUN a2enmod ssl
 RUN a2ensite default-ssl
 # COPY => コンテナ外（ローカルPC）にあるファイルをコンテナ内へ複製して格納するための命令
-COPY index.html /var/www/html
+#COPY index.html /var/www/html
 RUN sed -i -e "s/^<\/VirtualHost>/RewriteEngine on/" /etc/apache2/sites-available/000-default.conf
 RUN echo 'RewriteCond %{HTTPS} off' >> /etc/apache2/sites-available/000-default.conf
 RUN echo 'RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L]' >> /etc/apache2/sites-available/000-default.conf
@@ -41,7 +41,6 @@ RUN echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION
 RUN apt update
 RUN apt -y install temurin-17-jdk=17.0.5.0.0+8
 RUN mkdir /var/www/java
-# COPY KadaiFirstSpringBoot-0.0.1-SNAPSHOT.jar /var/www/java/
 COPY DailyReportSystemApplication-0.0.1-SNAPSHOT.jar /var/www/java/
 RUN a2enmod proxy
 RUN a2enmod proxy_ajp
