@@ -34,18 +34,7 @@ public class EmployeeService {
     // 従業員保存
     @Transactional
     public ErrorKinds save(Employee employee) {
-/*
-        // パスワードチェック
-        ErrorKinds result = employeePasswordCheck(employee);
-        if (ErrorKinds.CHECK_OK != result) {
-            return result;
-        }
 
-        // 従業員番号重複チェック
-        if (findByCode(employee.getCode()) != null) {
-            return ErrorKinds.DUPLICATE_ERROR;
-        }
-*/
         employee.setDeleteFlg(false);
 
         LocalDateTime now = LocalDateTime.now();

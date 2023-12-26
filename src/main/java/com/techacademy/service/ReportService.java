@@ -1,12 +1,10 @@
 package com.techacademy.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +20,8 @@ public class ReportService {
     //private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ReportService(ReportRepository reportRepository, EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
+    public ReportService(ReportRepository reportRepository, EmployeeRepository employeeRepository) {
         this.reportRepository = reportRepository;
-        //this.passwordEncoder = passwordEncoder;
     }
 
     // 日報保存
@@ -57,19 +54,8 @@ public class ReportService {
     // 日報更新
     @Transactional
     public ErrorKinds updateReport(Report report) {
-/*
-        // パスワード空白を判断
-        if ("".equals(employee.getPassword())) {
-            System.out.println("パスワードが空");
-            // データベースのパスワードをパスワードに代入
-            employee.setPassword(findByCode(employee.getCode()).getPassword());
-        } else {
-            ErrorKinds result = employeePasswordCheck(employee);
-            if (ErrorKinds.CHECK_OK != result) {
-                return result;
-            }
-        }
-*/
+
+
 
         report.setDeleteFlg(false);
         LocalDateTime now = LocalDateTime.now();
@@ -98,44 +84,5 @@ public class ReportService {
     public List<Report> findByEmployee_code(String code) {
         return reportRepository.findByEmployee_code(code);
     }
-
-/*
-    // 従業員パスワードチェック
-    private ErrorKinds employeePasswordCheck(Employee employee) {
-
-        // 従業員パスワードの半角英数字チェック処理
-        if (isHalfSizeCheckError(employee)) {
-
-            return ErrorKinds.HALFSIZE_ERROR;
-        }
-
-        // 従業員パスワードの8文字～16文字チェック処理
-        if (isOutOfRangePassword(employee)) {
-
-            return ErrorKinds.RANGECHECK_ERROR;
-        }
-
-        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
-
-        return ErrorKinds.CHECK_OK;
-    }
-
-    // 従業員パスワードの半角英数字チェック処理
-    private boolean isHalfSizeCheckError(Employee employee) {
-
-        // 半角英数字チェック
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9]+$");
-        Matcher matcher = pattern.matcher(employee.getPassword());
-        return !matcher.matches();
-    }
-
-    // 従業員パスワードの8文字～16文字チェック処理
-    public boolean isOutOfRangePassword(Employee employee) {
-
-        // 桁数チェック
-        int passwordLength = employee.getPassword().length();
-        return passwordLength < 8 || 16 < passwordLength;
-    }
-*/
 
 }

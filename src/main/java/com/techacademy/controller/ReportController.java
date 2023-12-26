@@ -1,5 +1,7 @@
 package com.techacademy.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
@@ -72,9 +74,18 @@ public class ReportController {
     @PostMapping(value = "/add")
     public String add(@Validated Report report, BindingResult res, Model model) {
 
-        // 日報日付ユーザーダブりチェック
+        List<Report> reportList = reportService.findByEmployee_code(report.getEmployee_code());
+        //reportList.remove(reportService.findById(report.getId()));
+        for(Report s : reportList){
+            if(s.getReport_date().equals(report.getReport_date())) {
+                model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
+                        ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
 
+                return create(report, model);
+                //return "reports/update";
+            }
 
+        }
 
         // 入力チェック
         if (res.hasErrors()) {
@@ -145,16 +156,19 @@ public class ReportController {
     @PostMapping(value = "/{id}/update")
     public String update(@Validated Report report, BindingResult res, Model model) {
 
-/*
-        // 日報日付ユーザーダブりチェック
-        if ("".equals(report.getPassword())) {
-            // パスワードが空白だった場合
-            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
-                    ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
+        List<Report> reportList = reportService.findByEmployee_code(report.getEmployee_code());
+        // 編集中の日報の日付は除外する
+        reportList.remove(reportService.findById(report.getId()));
+        for(Report s : reportList){
+            if(s.getReport_date().equals(report.getReport_date())) {
+                model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
+                        ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
 
-            return create(report);
+                return edit(report.getId(), model);
+                //return "reports/update";
+            }
+
         }
-*/
 
         // 入力チェック
         if (res.hasErrors()) {
