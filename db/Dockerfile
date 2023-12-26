@@ -7,7 +7,8 @@ RUN mkdir /command_tutorial
 RUN touch /command_tutorial/firstvi.txt
 
 # 2. viのインストール
-RUN apt update
+#RUN apt update
+RUN apt-get update
 RUN apt -y install vim
 
 # 3. ubuntuの日本語対応
