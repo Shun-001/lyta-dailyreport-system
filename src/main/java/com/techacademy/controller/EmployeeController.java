@@ -1,5 +1,7 @@
 package com.techacademy.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -59,6 +61,29 @@ public class EmployeeController {
     // 従業員新規登録処理
     @PostMapping(value = "/add")
     public String add(@Validated Employee employee, BindingResult res, Model model) {
+        /*
+        List<Employee> employeeList = employeetService.findByCode(employee.getCode());
+        //reportList.remove(reportService.findById(report.getId()));
+        for(Employee s : employeeList){
+            if(s.getReport_date().equals(report.getReport_date())) {
+                model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
+                        ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
+
+                return create(employee);
+                //return "reports/update";
+            }
+
+        }
+*/
+
+        boolean u = employeeService.doubleCheck(employee.getCode());
+        //model.addAttribute("u", u);
+        if (u) {
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_EXCEPTION_ERROR),
+                    ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_EXCEPTION_ERROR));
+
+            return create(employee);
+        }
 
         // パスワード空白チェック
         /*
@@ -89,8 +114,8 @@ public class EmployeeController {
             }
 
         } catch (DataIntegrityViolationException e) {
-            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_EXCEPTION_ERROR),
-                    ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_EXCEPTION_ERROR));
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_ERROR),
+                    ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_ERROR));
             return create(employee);
         }
 

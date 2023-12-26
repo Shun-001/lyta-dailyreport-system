@@ -157,4 +157,9 @@ public class EmployeeService {
         return passwordLength < 8 || 16 < passwordLength;
     }
 
+    public boolean doubleCheck(String id) {
+        // id が既に存在しているのなら(つまり、重複登録しようとしているのなら) true
+        return employeeRepository.existsById(id);
+    }
+
 }
