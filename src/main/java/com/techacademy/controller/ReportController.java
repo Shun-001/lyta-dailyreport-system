@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.constants.ErrorMessage;
-import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
 import com.techacademy.service.EmployeeService;
 import com.techacademy.service.ReportService;
+import com.techacademy.service.UserDetail;
 
 @Controller
 @RequestMapping("reports")
@@ -38,10 +39,15 @@ public class ReportController {
 
     // 日報一覧画面
     @GetMapping
-    public String list(Model model) {
+    public String list(@AuthenticationPrincipal UserDetail userdetail, Model model) {
 
-        model.addAttribute("listSize", reportService.findAll().size());
-        model.addAttribute("reportList", reportService.findAll());
+        if (userdetail.getEmployee().getRole().toString().equals("ADMIN")) {
+            model.addAttribute("listSize", reportService.findAll().size());
+            model.addAttribute("reportList", reportService.findAll());
+        } else {
+            model.addAttribute("listSize", reportService.findByEmployeeCode(userdetail.getEmployee().getCode()).size());
+            model.addAttribute("reportList", reportService.findByEmployeeCode(userdetail.getEmployee().getCode()));
+        }
 
         return "reports/list";
     }
@@ -74,8 +80,8 @@ public class ReportController {
     @PostMapping(value = "/add")
     public String add(@Validated Report report, BindingResult res, Model model) {
 
-        List<Report> reportList = reportService.findByEmployee_code(report.getEmployee_code());
-        //reportList.remove(reportService.findById(report.getId()));
+        List<Report> reportList = reportService.findByEmployeeCode(report.getEmployee_code());
+
         for(Report s : reportList){
             if(s.getReport_date().equals(report.getReport_date())) {
                 model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
@@ -139,16 +145,7 @@ public class ReportController {
     @GetMapping(value = "/{id}/update")
     public String edit(@PathVariable int id, Model model) {
         model.addAttribute("report", reportService.findById(id));
-/*
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        //Principalからログインユーザの情報を取得
-        String userName = auth.getName();
-        // employee_codeをここで代入 -> reportの情報が書き換えられてしまう
-        reportService.findById(id).setEmployee_code(userName);
-        // ログインユーザー名を取得
-        String loginUserName = employeeService.findByCode(userName).getName();
-        model.addAttribute("loginUserName", loginUserName);
-*/
+
         return "reports/update";
     }
 
@@ -156,7 +153,7 @@ public class ReportController {
     @PostMapping(value = "/{id}/update")
     public String update(@Validated Report report, BindingResult res, Model model) {
 
-        List<Report> reportList = reportService.findByEmployee_code(report.getEmployee_code());
+        List<Report> reportList = reportService.findByEmployeeCode(report.getEmployee_code());
         // 編集中の日報の日付は除外する
         reportList.remove(reportService.findById(report.getId()));
         for(Report s : reportList){

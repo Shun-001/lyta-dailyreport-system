@@ -81,7 +81,7 @@ public class ReportService {
         return report;
     }
 
-    public List<Report> findByEmployee_code(String code) {
+    public List<Report> findByEmployeeCode(String code) {
         return reportRepository.findByEmployee_code(code);
     }
 
