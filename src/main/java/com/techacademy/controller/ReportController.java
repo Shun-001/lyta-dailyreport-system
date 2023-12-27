@@ -64,6 +64,7 @@ public class ReportController {
     @GetMapping(value = "/add")
     public String create(@ModelAttribute Report report, Model model) {
 
+        // AuthenticationPrincipalアノテーション無しで取得
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         //Principalからログインユーザの情報を取得
         String userName = auth.getName();
