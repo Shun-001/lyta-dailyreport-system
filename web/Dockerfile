@@ -1,7 +1,7 @@
 # ubuntu:22.04をベースにする
 FROM ubuntu:22.04
 
-# command_tutorialディレクトリをルートディレクトリに作成してその中にfirstvi.txtを作成
+# lyta-dailyreport-systemディレクトリをルートディレクトリに作成してその中にfirstvi.txtを作成
 RUN mkdir /lyta-dailyreport-system
 RUN touch /lyta-dailyreport-system/firstvi.txt
 

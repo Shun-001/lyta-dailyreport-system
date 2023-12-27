@@ -27,4 +27,3 @@ services:
 # ボリュームの設定
 volumes:
   db_data:
-  
