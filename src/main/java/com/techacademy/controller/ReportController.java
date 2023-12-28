@@ -66,7 +66,7 @@ public class ReportController {
 
         // AuthenticationPrincipalアノテーション無しで取得
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        //Principalからログインユーザの情報を取得
+        // Principalからログインユーザの情報を取得
         String userName = auth.getName();
         // employee_codeをここで代入
         report.setEmployee_code(userName);
@@ -88,8 +88,8 @@ public class ReportController {
                 model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
                         ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
 
+              //return "reports/update";
                 return create(report, model);
-                //return "reports/update";
             }
 
         }
@@ -154,16 +154,17 @@ public class ReportController {
     @PostMapping(value = "/{id}/update")
     public String update(@Validated Report report, BindingResult res, Model model) {
 
+        // 同じ日付の日報がないかチェック
         List<Report> reportList = reportService.findByEmployeeCode(report.getEmployee_code());
-        // 編集中の日報の日付は除外する
+
         reportList.remove(reportService.findById(report.getId()));
         for(Report s : reportList){
             if(s.getReport_date().equals(report.getReport_date())) {
                 model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
                         ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
 
-                return edit(report.getId(), model);
                 //return "reports/update";
+                return edit(report.getId(), model);
             }
 
         }
@@ -176,7 +177,8 @@ public class ReportController {
             String loginUserName = employeeService.findByCode(userName).getName();
             model.addAttribute("loginUserName", loginUserName);
 
-            return "reports/update";
+            //return "reports/update";
+            return edit(report.getId(), model);
         }
 
 
