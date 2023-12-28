@@ -37,7 +37,7 @@ public class ReportController {
         this.employeeService = employeeService;
     }
 
-    // 日報一覧画面
+    /** 日報一覧画面 */
     @GetMapping
     public String list(@AuthenticationPrincipal UserDetail userdetail, Model model) {
 
@@ -52,7 +52,7 @@ public class ReportController {
         return "reports/list";
     }
 
-    // 日報詳細画面
+    /** 日報詳細画面 */
     @GetMapping(value = "/{id}/")
     public String detail(@PathVariable Integer id, Model model) {
 
@@ -60,7 +60,7 @@ public class ReportController {
         return "reports/detail";
     }
 
-    // 日報新規登録画面
+    /** 日報新規登録画面 */
     @GetMapping(value = "/add")
     public String create(@ModelAttribute Report report, Model model) {
 
@@ -77,7 +77,7 @@ public class ReportController {
         return "reports/new";
     }
 
-    // 日報新規登録処理
+    /** 日報新規登録処理 */
     @PostMapping(value = "/add")
     public String add(@Validated Report report, BindingResult res, Model model) {
 
@@ -126,7 +126,7 @@ public class ReportController {
         return "redirect:/reports";
     }
 
-    // 日報削除処理
+    /** 日報削除処理 */
     @PostMapping(value = "/{id}/delete")
     public String delete(@PathVariable Integer id, Model model) {
 
@@ -142,15 +142,16 @@ public class ReportController {
     }
 
 
-    // 日報更新画面
+    /** 日報更新画面 */
     @GetMapping(value = "/{id}/update")
     public String edit(@PathVariable int id, Model model) {
         model.addAttribute("report", reportService.findById(id));
+        model.addAttribute("employeeName", reportService.findById(id).getEmployee().getName());
 
         return "reports/update";
     }
 
-    // 日報更新処理
+    /** 日報更新処理 */
     @PostMapping(value = "/{id}/update")
     public String update(@Validated Report report, BindingResult res, Model model) {
 
@@ -171,14 +172,9 @@ public class ReportController {
 
         // 入力チェック
         if (res.hasErrors()) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String userName = auth.getName();
-            reportService.findById(report.getId()).setEmployee_code(userName);
-            String loginUserName = employeeService.findByCode(userName).getName();
-            model.addAttribute("loginUserName", loginUserName);
 
-            //return "reports/update";
-            return edit(report.getId(), model);
+            return "reports/update";
+            //return edit(report.getId(), model);
         }
 
 
