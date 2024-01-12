@@ -65,7 +65,7 @@ public class Project {
     private LocalDate termTo;
 
     /**
-     * 従業員
+     * メンバー
      */
     @ManyToOne
     @JoinColumn(name = "employee_code", referencedColumnName = "code"

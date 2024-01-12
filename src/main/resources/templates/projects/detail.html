@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
+<!-- <head th:replace="common/header :: head_fragment(title=プロジェクト詳細)"></head> では警告が出る -->
 <head th:replace="~{common/header :: head_fragment(title=プロジェクト詳細)}"></head>
 
 <body class="h-100 overflow-hidden">
@@ -24,45 +25,46 @@
 
                                 <table class="table table-striped">
                                     <tr>
-                                        <th>日付</th>
-                                        <td class="align-middle" th:text="${#temporals.format(report.report_date, 'yyyy-MM-dd')}"></td>
+                                        <th>プロジェクトコード</th>
+                                        <td class="align-middle" th:text="${project.projectCode}"></td>
                                     </tr>
                                     <tr>
-                                        <th>氏名</th>
-                                        <td class="align-middle" th:text="${report.employee.name}"></td>
+                                        <th>プロジェクト名</th>
+                                        <td class="align-middle" th:text="${project.projectName}"></td>
                                     </tr>
                                     <tr>
-                                        <th>タイトル</th>
-                                        <td class="align-middle" th:text="${report.title}"></td>
+                                        <th>期間(From)</th>
+                                        <td class="align-middle" th:text="${#temporals.format(project.termFrom, 'yyyy-MM-dd hh:mm:ss')}"></td>
                                     </tr>
                                     <tr>
-                                        <th>内容</th>
-                                        <pre>
-                                            <td class="align-middle" th:text="${report.content}" style="white-space: pre-wrap;"></td>
-                                        </pre>
+                                        <th>期間(To)</th>
+                                            <td class="align-middle" th:text="${#temporals.format(project.termTo, 'yyyy-MM-dd hh:mm:ss')}"></td>
                                     </tr>
                                     <tr>
-                                        <th>登録日時</th>
-                                        <td class="align-middle" th:text="${#temporals.format(report.createdAt, 'yyyy-MM-dd hh:mm:ss')}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>更新日時</th>
-                                        <td class="align-middle" th:text="${#temporals.format(report.updatedAt, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                                        <th>メンバー</th>
+                                        <!--選択肢はデータベースに登録されているプロジェクトメンバーを表示したい-->
+                                        <tr th:each="project:${projectList}">
+                                            <td class="align-middle" th:text="${project.projectCode}"></td>
+                                            <td class="align-middle" th:text="${project.projectName}"></td>
+                                            <td class="align-middle" th:text="${#temporals.format(project.termFrom, 'yyyy-MM-dd')}"></td>
+                                            <td class="align-middle" th:text="${#temporals.format(project.termTo, 'yyyy-MM-dd')}"></td>
+                                            <td class="align-middle"><a th:href="@{/projects/{id}/(id=${project.id})}" class="btn btn-primary">詳細</a></td>
+                                        </tr>
                                     </tr>
                                 </table>
                                 <div class="mt-5 row g-1">
                                     <div class="col-auto">
-                                        <form name="form" th:action="@{/reports/{id}/update(id=${id})}" th:method="get">
+                                        <form name="form" th:action="@{/projects/{id}/update(id=${id})}" th:method="get">
                                             <input type="submit" value="更新" class="btn btn-primary">
                                         </form>
                                     </div>
                                     <div class="col-auto">
-                                        <form name="form" th:action="@{/reports/{id}/delete(id=${id})}" th:method="post">
+                                        <form name="form" th:action="@{/projects/{id}/delete(id=${id})}" th:method="post">
                                             <input type="submit" value="削除" class="btn btn-danger">
                                         </form>
                                     </div>
                                     <div class="col-auto">
-                                        <a th:href="@{/reports}" class="btn btn-primary">戻る</a>
+                                        <a th:href="@{/projectss}" class="btn btn-primary">戻る</a>
                                     </div>
                                 </div>
                                 <span th:if="${deleteError} neq null" th:text="${deleteError}" class="text-danger"></span>
