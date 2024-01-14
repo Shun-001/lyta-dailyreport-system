@@ -1,6 +1,5 @@
 package com.techacademy.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,80 +8,84 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.techacademy.constants.ErrorKinds;
-import com.techacademy.entity.Report;
+import com.techacademy.entity.Project;
 import com.techacademy.repository.EmployeeRepository;
-import com.techacademy.repository.ReportRepository;
+import com.techacademy.repository.ProjectRepository;
 
 @Service
 public class ProjectService {
 
-    private final ReportRepository reportRepository;
+    private final ProjectRepository projectRepository;
     //private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ProjectService(ReportRepository reportRepository, EmployeeRepository employeeRepository) {
-        this.reportRepository = reportRepository;
+    public ProjectService(ProjectRepository projectRepository, EmployeeRepository employeeRepository) {
+        this.projectRepository = projectRepository;
     }
 
-    // 日報保存
+    /**
+     * プロジェクト保存
+     * @param project
+     * @return
+     */
     @Transactional
-    public ErrorKinds save(Report report) {
+    public ErrorKinds save(Project project) {
 
-        report.setDeleteFlg(false);
+        project.setDeleteFlg(false);
 
-        LocalDateTime now = LocalDateTime.now();
-        report.setCreatedAt(now);
-        report.setUpdatedAt(now);
-
-        reportRepository.save(report);
+        projectRepository.save(project);
         return ErrorKinds.SUCCESS;
     }
 
-    // 従業員削除
+    /**
+     * プロジェクト削除
+     * @param id
+     * @return
+     */
     @Transactional
     public ErrorKinds delete(int id) {
 
-        Report report = findById(id);
-        LocalDateTime now = LocalDateTime.now();
-        report.setUpdatedAt(now);
-        report.setDeleteFlg(true);
+        Project project = findById(id);
+        project.setDeleteFlg(true);
 
         return ErrorKinds.SUCCESS;
     }
 
 
-    // 日報更新
+    /**
+     * プロジェクト更新
+     * @param project
+     * @return
+     */
     @Transactional
-    public ErrorKinds updateReport(Report report) {
+    public ErrorKinds updateProject(Project project) {
 
+        project.setDeleteFlg(false);
+        //report.setEmployee_code(report.getEmployee_code());
 
-
-        report.setDeleteFlg(false);
-        LocalDateTime now = LocalDateTime.now();
-        report.setUpdatedAt(now);
-        report.setCreatedAt(findById(report.getId()).getCreatedAt());
-        report.setEmployee_code(report.getEmployee_code());
-
-        reportRepository.save(report);
+        projectRepository.save(project);
         return ErrorKinds.SUCCESS;
     }
 
 
-    // 日報一覧表示処理
-    public List<Report> findAll() {
-        return reportRepository.findAll();
+    /**
+     * 日報一覧表示処理
+     * @return
+     */
+    public List<Project> findAll() {
+        return projectRepository.findAll();
     }
 
-    // 1件を検索
-    public Report findById(int id) {
-        Optional<Report> option = reportRepository.findById(id);
+    /**
+     * プロジェクトをidで検索
+     * @param id
+     * @return
+     */
+    public Project findById(int id) {
+        Optional<Project> option = projectRepository.findById(id);
         // 取得できなかった場合はnullを返す
-        Report report = option.orElse(null);
-        return report;
-    }
-
-    public List<Report> findByEmployeeCode(String code) {
-        return reportRepository.findByEmployee_code(code);
+        Project project = option.orElse(null);
+        return project;
     }
 
 }
