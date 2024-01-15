@@ -12,7 +12,7 @@
 
         <div class="mt-3 h-100 col-sm-10">
             <div class="container-fluid p-0">
-                <h1 th:text="'プロジェクト 詳細'" class="h3 mb-3"></h1>
+                <h1 th:text="プロジェクト 詳細" class="h3 mb-3"></h1>
             </div>
 
             <div class="mb-3 col-12 col-xxl-6">
@@ -21,35 +21,43 @@
                     <div class="card">
                         <div class="card-body mb-5">
 
-                            <div class="wizard wizard-success mb-4">
+                            <div class="wizard wizard-success mb-4" th:object="${project}">
 
                                 <table class="table table-striped">
                                     <tr>
                                         <th>プロジェクトコード</th>
-                                        <td class="align-middle" th:text="${project.projectCode}"></td>
+                                        <td class="align-middle" th:text="*{projectCode}"></td>
                                     </tr>
                                     <tr>
                                         <th>プロジェクト名</th>
-                                        <td class="align-middle" th:text="${project.projectName}"></td>
+                                        <td class="align-middle" th:text="*{projectName}"></td>
                                     </tr>
                                     <tr>
                                         <th>期間(From)</th>
-                                        <td class="align-middle" th:text="${#temporals.format(project.termFrom, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                                        <td class="align-middle" th:text="${#temporals.format(project.termFrom, 'yyyy-MM-dd')}"></td>
                                     </tr>
                                     <tr>
                                         <th>期間(To)</th>
-                                            <td class="align-middle" th:text="${#temporals.format(project.termTo, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                                            <td class="align-middle" th:text="${#temporals.format(project.termTo, 'yyyy-MM-dd')}"></td>
                                     </tr>
                                     <tr>
                                         <th>メンバー</th>
-                                        <!--選択肢はデータベースに登録されているプロジェクトメンバーを表示したい-->
+                                        <!--選択肢はデータベースに登録されているプロジェクトメンバーを表示したい
                                         <tr th:each="project:${projectList}">
                                             <td class="align-middle" th:text="${project.projectCode}"></td>
                                             <td class="align-middle" th:text="${project.projectName}"></td>
                                             <td class="align-middle" th:text="${#temporals.format(project.termFrom, 'yyyy-MM-dd')}"></td>
                                             <td class="align-middle" th:text="${#temporals.format(project.termTo, 'yyyy-MM-dd')}"></td>
                                             <td class="align-middle"><a th:href="@{/projects/{id}/(id=${project.id})}" class="btn btn-primary">詳細</a></td>
-                                        </tr>
+                                        </tr> -->
+                                    </tr>
+                                    <tr>
+                                        <th>登録日時</th>
+                                        <td class="align-middle" th:text="${#temporals.format(project.createdAt, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>更新日時</th>
+                                        <td class="align-middle" th:text="${#temporals.format(project.updatedAt, 'yyyy-MM-dd hh:mm:ss')}"></td>
                                     </tr>
                                 </table>
                                 <div class="mt-5 row g-1">
@@ -64,7 +72,7 @@
                                         </form>
                                     </div>
                                     <div class="col-auto">
-                                        <a th:href="@{/projectss}" class="btn btn-primary">戻る</a>
+                                        <a th:href="@{/projects}" class="btn btn-primary">戻る</a>
                                     </div>
                                 </div>
                                 <span th:if="${deleteError} neq null" th:text="${deleteError}" class="text-danger"></span>

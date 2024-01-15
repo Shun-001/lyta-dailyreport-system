@@ -55,8 +55,6 @@ public class ReportService {
     @Transactional
     public ErrorKinds updateReport(Report report) {
 
-
-
         report.setDeleteFlg(false);
         LocalDateTime now = LocalDateTime.now();
         report.setUpdatedAt(now);

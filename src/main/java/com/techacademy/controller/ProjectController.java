@@ -4,9 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.constants.ErrorMessage;
 import com.techacademy.entity.Project;
-import com.techacademy.entity.Report;
 import com.techacademy.service.EmployeeService;
 import com.techacademy.service.ProjectService;
 import com.techacademy.service.ReportService;
@@ -39,21 +36,15 @@ public class ProjectController {
 
     /**
      * プロジェクト一覧画面
-     * @param userdetail
      * @param model
      * @return
      */
     @GetMapping
-    public String list(@AuthenticationPrincipal UserDetail userdetail, Model model) {
-/*
-        if (userdetail.getEmployee().getRole().toString().equals("ADMIN")) {
-            model.addAttribute("listSize", projectService.findAll().size());
-            model.addAttribute("projectList", projectService.findAll());
-        } else {
-            model.addAttribute("listSize", projectService.findByEmployeeCode(userdetail.getEmployee().getCode()).size());
-            model.addAttribute("projectList", projectService.findByEmployeeCode(userdetail.getEmployee().getCode()));
-        }
-*/
+    public String list(Model model) {
+
+        model.addAttribute("listSize", projectService.findAll().size());
+        model.addAttribute("projectList", projectService.findAll());
+
         return "projects/list";
     }
 
@@ -78,17 +69,7 @@ public class ProjectController {
      */
     @GetMapping(value = "/add")
     public String create(@ModelAttribute Project project, Model model) {
-/*
-        // AuthenticationPrincipalアノテーション無しで取得
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        // Principalからログインユーザの情報を取得
-        String userName = auth.getName();
-        // employee_codeをここで代入
-        report.setEmployee_code(userName);
-        // ログインユーザー名を取得
-        String loginUserName = employeeService.findByCode(userName).getName();
-        model.addAttribute("loginUserName", loginUserName);
-*/
+
         return "projects/new";
     }
 
@@ -106,8 +87,8 @@ public class ProjectController {
 
         for(Project s : projectList){
             if(s.getProjectCode().equals(project.getProjectCode())) {
-                model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
-                        ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
+                model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.CODECHECK_ERROR),
+                        ErrorMessage.getErrorValue(ErrorKinds.CODECHECK_ERROR));
 
                 return create(project, model);
             }
@@ -161,7 +142,7 @@ public class ProjectController {
 
 
     /**
-     * 日報更新画面
+     * プロジェクト更新画面
      */
     @GetMapping(value = "/{id}/update")
     public String edit(@PathVariable int id, Model model) {
@@ -172,7 +153,7 @@ public class ProjectController {
     }
 
     /**
-     * 日報更新処理
+     * プロジェクト更新処理
      */
     @PostMapping(value = "/{id}/update")
     public String update(@Validated Project project, BindingResult res, Model model) {

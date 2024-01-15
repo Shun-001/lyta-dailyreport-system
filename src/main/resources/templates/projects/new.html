@@ -20,13 +20,13 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-body">
-                            <form th:action="@{/reports/add}" th:object="${project}" th:method="post">
+                            <form th:action="@{/projects/add}" th:object="${project}" th:method="post">
                                 <div class="wizard wizard-success mb-4">
                                     <div class="mb-3">
                                         <label class="form-label" for="projectCode">プロジェクトコード</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                            <input class="form-control" type="date" th:field="*{projectCode}" th:errorclass="err" id="projectCode">
+                                            <input class="form-control" type="text" th:field="*{projectCode}" th:errorclass="err" id="projectCode">
                                             <span th:errors="*{projectCode}" class="text-danger"></span>
                                             <span th:if="${projectCodeError} neq null" th:text="${projectCodeError}" class="text-danger"></span>
                                         </div>
@@ -35,7 +35,7 @@
                                         <label class="form-label" for="projectName">プロジェクト名</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                            <input class="form-control" type="date" th:field="*{projectName}" th:errorclass="err" id="projectName">
+                                            <input class="form-control" type="text" th:field="*{projectName}" th:errorclass="err" id="projectName">
                                             <span th:errors="*{projectName}" class="text-danger"></span>
                                             <span th:if="${projectNameError} neq null" th:text="${projectNameError}" class="text-danger"></span>
                                         </div>
@@ -73,7 +73,7 @@
                                 </div>
                                 <p class="mt-5">
                                     <input type="submit" value="登録" class="btn btn-primary">
-                                    <a th:href="@{/reports}" class="btn btn-primary">戻る</a>
+                                    <a th:href="@{/projects}" class="btn btn-primary">戻る</a>
                                 </p>
                             </form>
                         </div>

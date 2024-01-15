@@ -1,5 +1,6 @@
 package com.techacademy.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,10 @@ public class ProjectService {
 
         project.setDeleteFlg(false);
 
+        LocalDateTime now = LocalDateTime.now();
+        project.setCreatedAt(now);
+        project.setUpdatedAt(now);
+
         projectRepository.save(project);
         return ErrorKinds.SUCCESS;
     }
@@ -46,6 +51,8 @@ public class ProjectService {
     public ErrorKinds delete(int id) {
 
         Project project = findById(id);
+        LocalDateTime now = LocalDateTime.now();
+        project.setUpdatedAt(now);
         project.setDeleteFlg(true);
 
         return ErrorKinds.SUCCESS;
@@ -61,7 +68,10 @@ public class ProjectService {
     public ErrorKinds updateProject(Project project) {
 
         project.setDeleteFlg(false);
-        //report.setEmployee_code(report.getEmployee_code());
+        LocalDateTime now = LocalDateTime.now();
+        project.setUpdatedAt(now);
+        project.setCreatedAt(findById(project.getId()).getCreatedAt());
+        project.setEmployee_code(project.getEmployee_code());
 
         projectRepository.save(project);
         return ErrorKinds.SUCCESS;
