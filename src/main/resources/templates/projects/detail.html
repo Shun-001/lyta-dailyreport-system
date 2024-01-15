@@ -26,19 +26,19 @@
                                 <table class="table table-striped">
                                     <tr>
                                         <th>プロジェクトコード</th>
-                                        <td class="align-middle" th:text="'${project.projectCode}'"></td>
+                                        <td class="align-middle" th:text="${project.projectCode}"></td>
                                     </tr>
                                     <tr>
                                         <th>プロジェクト名</th>
-                                        <td class="align-middle" th:text="'${project.projectName}'"></td>
+                                        <td class="align-middle" th:text="${project.projectName}"></td>
                                     </tr>
                                     <tr>
                                         <th>期間(From)</th>
-                                        <td class="align-middle" th:text="${#temporals.format(termFrom, 'yyyy-MM-dd')}"></td>
+                                        <td class="align-middle" th:text="${#temporals.format(project.termFrom, 'yyyy-MM-dd')}"></td>
                                     </tr>
                                     <tr>
                                         <th>期間(To)</th>
-                                            <td class="align-middle" th:text="${#temporals.format(termTo, 'yyyy-MM-dd')}"></td>
+                                            <td class="align-middle" th:text="${#temporals.format(project.termTo, 'yyyy-MM-dd')}"></td>
                                     </tr>
                                     <tr>
                                         <th>メンバー</th>
@@ -53,11 +53,11 @@
                                     </tr>
                                     <tr>
                                         <th>登録日時</th>
-                                        <td class="align-middle" th:text="${#temporals.format(createdAt, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                                        <td class="align-middle" th:text="${#temporals.format(project.createdAt, 'yyyy-MM-dd hh:mm:ss')}"></td>
                                     </tr>
                                     <tr>
                                         <th>更新日時</th>
-                                        <td class="align-middle" th:text="${#temporals.format(updatedAt, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                                        <td class="align-middle" th:text="${#temporals.format(project.updatedAt, 'yyyy-MM-dd hh:mm:ss')}"></td>
                                     </tr>
                                 </table>
                                 <div class="mt-5 row g-1">
