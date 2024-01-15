@@ -57,7 +57,7 @@ public class ProjectController {
     @GetMapping(value = "/{id}/")
     public String detail(@PathVariable Integer id, Model model) {
 
-        model.addAttribute("projects", projectService.findById(id));
+        model.addAttribute("project", projectService.findById(id));
         return "projects/detail";
     }
 
