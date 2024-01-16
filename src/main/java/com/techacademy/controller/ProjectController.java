@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.constants.ErrorMessage;
+import com.techacademy.entity.Employee;
 import com.techacademy.entity.Project;
 import com.techacademy.service.EmployeeService;
 import com.techacademy.service.ProjectService;
@@ -28,10 +29,12 @@ import com.techacademy.service.UserDetail;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final EmployeeService employeeService;
 
     @Autowired
     public ProjectController(ProjectService projectService, ReportService reportService, EmployeeService employeeService) {
         this.projectService = projectService;
+        this.employeeService = employeeService;
     }
 
     /**
@@ -69,6 +72,9 @@ public class ProjectController {
      */
     @GetMapping(value = "/add")
     public String create(@ModelAttribute Project project, Model model) {
+
+        List<Employee> employeeList = employeeService.findAll();
+        model.addAttribute("employeeList", employeeList);
 
         return "projects/new";
     }
@@ -146,8 +152,10 @@ public class ProjectController {
      */
     @GetMapping(value = "/{id}/update")
     public String edit(@PathVariable int id, Model model) {
+
+        List<Employee> employeeList = employeeService.findAll();
+        model.addAttribute("employeeList", employeeList);
         model.addAttribute("project", projectService.findById(id));
-        //model.addAttribute("employeeName", projectService.findById(id).getEmployee().getName());
 
         return "projects/update";
     }

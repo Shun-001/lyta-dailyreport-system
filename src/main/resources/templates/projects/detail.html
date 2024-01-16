@@ -38,18 +38,16 @@
                                     </tr>
                                     <tr>
                                         <th>期間(To)</th>
-                                            <td class="align-middle" th:text="${#temporals.format(project.termTo, 'yyyy-MM-dd')}"></td>
+                                        <td class="align-middle" th:text="${#temporals.format(project.termTo, 'yyyy-MM-dd')}"></td>
                                     </tr>
                                     <tr>
                                         <th>メンバー</th>
-                                        <!--選択肢はデータベースに登録されているプロジェクトメンバーを表示したい
-                                        <tr th:each="project:${projectList}">
-                                            <td class="align-middle" th:text="${project.projectCode}"></td>
-                                            <td class="align-middle" th:text="${project.projectName}"></td>
-                                            <td class="align-middle" th:text="${#temporals.format(project.termFrom, 'yyyy-MM-dd')}"></td>
-                                            <td class="align-middle" th:text="${#temporals.format(project.termTo, 'yyyy-MM-dd')}"></td>
-                                            <td class="align-middle"><a th:href="@{/projects/{id}/(id=${project.id})}" class="btn btn-primary">詳細</a></td>
-                                        </tr> -->
+                                        <!--選択肢はデータベースに登録されているプロジェクトメンバーを表示したい-->
+
+                                    </tr>
+                                    <tr th:each="project:${project.memberList}">
+                                        <td class="align-middle" th:text="${project.employee.code}"></td>
+                                        <td class="align-middle" th:text="${project.employee.name}"></td>
                                     </tr>
                                     <tr>
                                         <th>登録日時</th>

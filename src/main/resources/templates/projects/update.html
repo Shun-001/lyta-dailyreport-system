@@ -67,11 +67,22 @@
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
                                             <!--選択肢はデータベースに登録されている従業員一覧を表示したい-->
-                                            <tr th:each="employee:${employeeList}">
-                                                <td><input class="form-control" type="radio" th:field="*{members}" th:errorclass="err" id="members"></td>
-                                                <td class="align-middle" th:text="${employee.code}"></td>
-                                                <td class="align-middle" th:text="${employee.name}"></td>
-                                            </tr>
+                                            <table class="table table-striped w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>社員番号</th>
+                                                        <th>氏名</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="employee:${employeeList}">
+                                                        <td><input type="checkbox" th:field="*{memberList}" th:value="${memberList}" id="memberList"></td>
+                                                        <td class="align-middle" th:text="${employee.code}"></td>
+                                                        <td class="align-middle" th:text="${employee.name}"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <p class="mt-5">

@@ -71,7 +71,6 @@ public class ProjectService {
         LocalDateTime now = LocalDateTime.now();
         project.setUpdatedAt(now);
         project.setCreatedAt(findById(project.getId()).getCreatedAt());
-        project.setEmployee_code(project.getEmployee_code());
 
         projectRepository.save(project);
         return ErrorKinds.SUCCESS;
