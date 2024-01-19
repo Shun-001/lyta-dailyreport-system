@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +21,8 @@ import com.techacademy.entity.Project;
 import com.techacademy.service.EmployeeService;
 import com.techacademy.service.ProjectService;
 import com.techacademy.service.ReportService;
-import com.techacademy.service.UserDetail;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("projects")

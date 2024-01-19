@@ -18,6 +18,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -68,16 +69,32 @@ public class Project {
     private LocalDate termTo;
 
     /**
+     * 日付の前後チェック
+     * @return
+     */
+    @AssertTrue(message = "開始日(From)は終了日(To)以前の日付を入力してください")
+    public boolean isDateValid() {
+        if (termFrom.isBefore(termTo)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 削除フラグ
      */
     @Column(columnDefinition="TINYINT", nullable = false)
     private boolean deleteFlg;
 
-    // 登録日時
+    /**
+     * 登録日時
+     */
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    // 更新日時
+    /**
+     * 更新日時
+     */
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 

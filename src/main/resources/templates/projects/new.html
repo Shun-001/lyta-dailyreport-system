@@ -56,6 +56,8 @@
                                             <input class="form-control" type="date" th:field="*{termTo}" th:errorclass="err" id="termTo">
                                             <span th:errors="*{termTo}" class="text-danger"></span>
                                             <span th:if="${termToError} neq null" th:text="${termToError}" class="text-danger"></span>
+                                            <!-- 相関チェック -->
+                                            <span th:if="${dateValid} neq null" th:errors="*{dateValid}" th:text="${dateValid}" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
