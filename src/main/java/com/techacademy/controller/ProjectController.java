@@ -22,8 +22,6 @@ import com.techacademy.service.EmployeeService;
 import com.techacademy.service.ProjectService;
 import com.techacademy.service.ReportService;
 
-import jakarta.validation.Valid;
-
 @Controller
 @RequestMapping("projects")
 public class ProjectController {
@@ -58,9 +56,10 @@ public class ProjectController {
      * @return
      */
     @GetMapping(value = "/{id}/")
-    public String detail(@PathVariable Integer id, Model model) {
+    public String detail(@PathVariable Integer id, Employee employee, Model model) {
 
         model.addAttribute("project", projectService.findById(id));
+
         return "projects/detail";
     }
 
@@ -133,14 +132,14 @@ public class ProjectController {
      * @return
      */
     @PostMapping(value = "/{id}/delete")
-    public String delete(@PathVariable Integer id, Model model) {
+    public String delete(@PathVariable Integer id, Employee employee, Model model) {
 
         ErrorKinds result = projectService.delete(id);
 
         if (ErrorMessage.contains(result)) {
             model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
             model.addAttribute("project", projectService.findById(id));
-            return detail(id, model);
+            return detail(id, employee, model);
         }
 
         return "redirect:/projects";

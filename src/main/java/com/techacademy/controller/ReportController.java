@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.constants.ErrorMessage;
+import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
 import com.techacademy.service.EmployeeService;
 import com.techacademy.service.ReportService;
@@ -37,7 +38,12 @@ public class ReportController {
         this.employeeService = employeeService;
     }
 
-    /** 日報一覧画面 */
+    /**
+     * 日報一覧画面
+     * @param userdetail
+     * @param model
+     * @return
+     */
     @GetMapping
     public String list(@AuthenticationPrincipal UserDetail userdetail, Model model) {
 
@@ -52,13 +58,46 @@ public class ReportController {
         return "reports/list";
     }
 
-    /** 日報詳細画面 */
+    /**
+     * 日報詳細画面
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/{id}/")
     public String detail(@PathVariable Integer id, Model model) {
 
         model.addAttribute("report", reportService.findById(id));
         return "reports/detail";
     }
+
+    /**
+     * 日報検索画面
+     * @return
+     */
+    @GetMapping(value = "/search")
+    public String search() {
+
+        return "reports/search";
+    }
+
+    // 日報検索処理
+    @PostMapping(value = "/search")
+    public String showSearchResult(@AuthenticationPrincipal UserDetail userdetail, Model model) {
+
+        // 本当は検索条件に合うものだけをリストに格納して表示したい
+        if (userdetail.getEmployee().getRole().toString().equals("ADMIN")) {
+            model.addAttribute("listSize", reportService.findAll().size());
+            model.addAttribute("reportList", reportService.findAll());
+        } else {
+            model.addAttribute("listSize", reportService.findByEmployeeCode(userdetail.getEmployee().getCode()).size());
+            model.addAttribute("reportList", reportService.findByEmployeeCode(userdetail.getEmployee().getCode()));
+        }
+
+
+        return "/reports/list";
+    }
+
 
     /** 日報新規登録画面 */
     @GetMapping(value = "/add")

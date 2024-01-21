@@ -17,7 +17,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
@@ -46,6 +48,11 @@ public class Employee {
     // 日報情報
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<Report> reportList;
+
+    // 参加プロジェクト
+    @ManyToOne
+    @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = true, insertable = false, updatable = true)
+    private Project project;
 
     // ID
     @Id
@@ -80,11 +87,5 @@ public class Employee {
     // 更新日時
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    /**
-     * 参加しているプロジェクト
-     */
-    @ManyToMany(mappedBy = "memberList")
-    private List<Project> projectList;
 
 }

@@ -1,14 +1,19 @@
 package com.techacademy.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.techacademy.constants.ErrorKinds;
+import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
 import com.techacademy.repository.EmployeeRepository;
 import com.techacademy.repository.ReportRepository;
@@ -81,6 +86,24 @@ public class ReportService {
 
     public List<Report> findByEmployeeCode(String code) {
         return reportRepository.findByEmployee_code(code);
+    }
+
+    // 検索機能
+    public List<Report> search(Employee employee) {
+
+        List<Report> result = new ArrayList<Report>();
+
+        // すべて空白なら全件返す
+        if (Objects.nonNull(employee.getName()) && Objects.nonNull(employee.getProject().getProjectName())
+                && Objects.nonNull(employee.getProject().getTermFrom()) && Objects.nonNull(employee.getProject().getTermTo())){
+            result = reportRepository.findAll();
+        }
+        else {
+            result = reportRepository.findByEmployee(employee);
+        }
+
+        return result;
+
     }
 
 }

@@ -41,7 +41,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="content">期間（開始日）</label>
+                                        <label class="form-label" for="termFrom">期間（開始日）</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
                                             <input class="form-control" type="date" th:field="*{termFrom}" th:errorclass="err" id="termFrom">
@@ -50,7 +50,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="content">期間（終了日）</label>
+                                        <label class="form-label" for="termTo">期間（終了日）</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
                                             <input class="form-control" type="date" th:field="*{termTo}" th:errorclass="err" id="termTo">
@@ -74,11 +74,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+
                                                     <tr th:each="employee:${employeeList}">
-                                                        <td><input type="checkbox" th:field="*{memberList}" th:value="${memberList}" id="memberList"></td>
+                                                        <td><input type="checkbox" th:field="*{memberList}" th:value="${employee.code}" id="memberList"></td>
                                                         <td class="align-middle" th:text="${employee.code}"></td>
                                                         <td class="align-middle" th:text="${employee.name}"></td>
                                                     </tr>
+
                                                 </tbody>
                                             </table>
                                         </div>
