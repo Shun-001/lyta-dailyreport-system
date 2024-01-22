@@ -68,7 +68,7 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="projectName">メンバー</label>
                                         <p class="mb-1"></p>
-                                        <div class="col-md-7">
+                                        <div class="col-md-7" id="employeeTable">
                                             <table class="table table-striped w-100">
                                                 <thead>
                                                     <tr>
@@ -79,7 +79,7 @@
                                                 </thead>
                                                 <tbody>
                                                         <tr th:each="employee:${employeeList}">
-                                                            <td><input type="checkbox" th:field="*{memberList}" th:value="${employee.code}" id="memberList"></td>
+                                                            <td><input type="checkbox" th:field="*{memberList}" th:value="${employee.code}"></td>
                                                             <td class="align-middle" th:text="${employee.code}" style="width: 100px;"></td>
                                                             <td class="align-middle" th:text="${employee.name}" style="width: 200px;"></td>
                                                         </tr>
@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
                                 <p class="mt-5">
-                                    <input type="submit" value="登録" class="btn btn-primary">
+                                    <input type="submit" value="登録" class="btn btn-primary" id="submit">
                                     <a th:href="@{/projects}" class="btn btn-primary">戻る</a>
                                 </p>
                             </form>
@@ -100,5 +100,4 @@
         </div>
     </div>
 </body>
-
 </html>

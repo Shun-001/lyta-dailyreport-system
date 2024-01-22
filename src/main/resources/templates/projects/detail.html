@@ -45,7 +45,7 @@
                                         <!--選択肢はデータベースに登録されているプロジェクトメンバーを表示したい-->
 
                                     </tr>
-                                    <tr th:each="project:${project.memberList}">
+                                    <tr th:each="member:${members}">
                                         <td class="align-middle" th:text="${project.employee.code}"></td>
                                         <td class="align-middle" th:text="${project.employee.name}"></td>
                                     </tr>
