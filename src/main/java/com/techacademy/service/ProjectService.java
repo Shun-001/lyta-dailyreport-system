@@ -1,6 +1,7 @@
 package com.techacademy.service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.techacademy.constants.ErrorKinds;
+import com.techacademy.entity.Employee;
 import com.techacademy.entity.Project;
-import com.techacademy.repository.EmployeeRepository;
 import com.techacademy.repository.ProjectRepository;
 
 @Service
@@ -18,10 +19,12 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     //private final PasswordEncoder passwordEncoder;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository, EmployeeRepository employeeRepository) {
+    public ProjectService(ProjectRepository projectRepository, EmployeeService employeeService) {
         this.projectRepository = projectRepository;
+        this.employeeService = employeeService;
     }
 
     /**
@@ -30,7 +33,14 @@ public class ProjectService {
      * @return
      */
     @Transactional
-    public ErrorKinds save(Project project) {
+    public ErrorKinds save(Project project, String members) {
+
+        // employeeのprojectフィールドにprojectを格納
+        List<String> memberIdList = Arrays.asList(members.split(","));
+        for(String id : memberIdList) {
+            Employee emp = employeeService.findByCode(id);
+            emp.setProject(project);
+        }
 
         project.setDeleteFlg(false);
 

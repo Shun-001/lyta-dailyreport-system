@@ -79,7 +79,7 @@
                                                 </thead>
                                                 <tbody>
                                                         <tr th:each="employee:${employeeList}">
-                                                            <td><input type="checkbox" th:field="*{memberList}" th:value="${employee.code}"></td>
+                                                            <td><input type="checkbox" th:field="*{members}" th:value="${employee.code}"></td>
                                                             <td class="align-middle" th:text="${employee.code}" style="width: 100px;"></td>
                                                             <td class="align-middle" th:text="${employee.name}" style="width: 200px;"></td>
                                                         </tr>

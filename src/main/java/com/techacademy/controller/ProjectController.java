@@ -86,7 +86,7 @@ public class ProjectController {
      * @return
      */
     @PostMapping(value = "/add")
-    public String add(@Validated Project project, BindingResult res, Model model) {
+    public String add(@Validated Project project, String members, BindingResult res, Model model) {
 
         List<Project> projectList = projectService.findAll();
 
@@ -109,7 +109,7 @@ public class ProjectController {
         // 論理削除を行った従業員番号を指定すると例外となるためtry~catchで対応
         // (findByIdでは削除フラグがTRUEのデータが取得出来ないため)
         try {
-            ErrorKinds result = projectService.save(project);
+            ErrorKinds result = projectService.save(project, members);
 
             if (ErrorMessage.contains(result)) {
                 model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));

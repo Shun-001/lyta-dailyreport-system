@@ -2,7 +2,6 @@ package com.techacademy.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.SQLRestriction;
@@ -15,7 +14,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.AssertTrue;
@@ -102,6 +100,6 @@ public class Project {
      * メンバーリスト
      */
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<Employee> memberList;
+    private List<Employee> members;
 
 }
