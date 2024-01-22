@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<!-- <head th:replace="common/header :: head_fragment(title=プロジェクト新規登録)"></head> では警告が出る -->
-<head th:replace="~{common/header :: head_fragment(title=プロジェクト新規登録)}"></head>
+<head>
+    <meta charset="utf-8">
+    <title th:text="プロジェクト新規登録"></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/additional.css}" >
+    <script defer th:src="@{/js/bootstrap.min.js}"></script>
+</head>
 
 <body class="h-100 overflow-hidden">
     <div class="row h-100">
@@ -26,7 +31,7 @@
                                         <label class="form-label" for="projectCode">プロジェクトコード</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                            <input class="form-control" type="text" th:field="*{projectCode}" th:errorclass="err" id="projectCode">
+                                            <input class="form-control w-25" type="text" th:field="*{projectCode}" th:errorclass="err" id="projectCode">
                                             <span th:errors="*{projectCode}" class="text-danger"></span>
                                             <span th:if="${projectCodeError} neq null" th:text="${projectCodeError}" class="text-danger"></span>
                                         </div>
@@ -44,7 +49,7 @@
                                         <label class="form-label" for="termFrom">期間（開始日）</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                            <input class="form-control" type="date" th:field="*{termFrom}" th:errorclass="err" id="termFrom">
+                                            <input class="form-control w-50" type="date" th:field="*{termFrom}" th:errorclass="err" id="termFrom">
                                             <span th:errors="*{termFrom}" class="text-danger"></span>
                                             <span th:if="${termFromError} neq null" th:text="${termFromError}" class="text-danger"></span>
                                         </div>
@@ -53,7 +58,7 @@
                                         <label class="form-label" for="termTo">期間（終了日）</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                            <input class="form-control" type="date" th:field="*{termTo}" th:errorclass="err" id="termTo">
+                                            <input class="form-control w-50" type="date" th:field="*{termTo}" th:errorclass="err" id="termTo">
                                             <span th:errors="*{termTo}" class="text-danger"></span>
                                             <span th:if="${termToError} neq null" th:text="${termToError}" class="text-danger"></span>
                                             <!-- 相関チェック -->
@@ -64,23 +69,20 @@
                                         <label class="form-label" for="projectName">メンバー</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                            <!--選択肢はデータベースに登録されている従業員一覧を表示したい-->
                                             <table class="table table-striped w-100">
                                                 <thead>
                                                     <tr>
-                                                        <th></th>
-                                                        <th>社員番号</th>
-                                                        <th>氏名</th>
+                                                        <th style="width: 20px;"></th>
+                                                        <th style="width: 100px;">社員番号</th>
+                                                        <th style="width: 200px;">氏名</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-
-                                                    <tr th:each="employee:${employeeList}">
-                                                        <td><input type="checkbox" th:field="*{memberList}" th:value="${employee.code}" id="memberList"></td>
-                                                        <td class="align-middle" th:text="${employee.code}"></td>
-                                                        <td class="align-middle" th:text="${employee.name}"></td>
-                                                    </tr>
-
+                                                        <tr th:each="employee:${employeeList}">
+                                                            <td><input type="checkbox" th:field="*{memberList}" th:value="${employee.code}" id="memberList"></td>
+                                                            <td class="align-middle" th:text="${employee.code}" style="width: 100px;"></td>
+                                                            <td class="align-middle" th:text="${employee.name}" style="width: 200px;"></td>
+                                                        </tr>
                                                 </tbody>
                                             </table>
                                         </div>

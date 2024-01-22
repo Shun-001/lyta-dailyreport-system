@@ -50,7 +50,7 @@
                                         <label class="form-label" for="role">権限</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-4">
-                                            <select class="form-select" th:field="*{role}" id="role">
+                                            <select class="form-select w-75" th:field="*{role}" id="role">
                                                 <option th:each="item:${T(com.techacademy.entity.Employee.Role).values()}" th:value="${item}" th:text="${item.getValue()}" th:selected="*{role} == ${item}">
                                             </select>
                                         </div>

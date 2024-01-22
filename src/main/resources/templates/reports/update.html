@@ -33,7 +33,7 @@
                                     <label class="form-label" for="date">日付</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                            <input class="form-control" type="date" th:field="*{report_date}" th:errorclass="err" id="report_date">
+                                            <input class="form-control w-50" type="date" th:field="*{report_date}" th:errorclass="err" id="report_date">
                                             <span th:errors="*{report_date}" class="text-danger"></span>
                                             <span th:if="${reportDateError} neq null" th:text="${reportDateError}" class="text-danger"></span>
                                         </div>
