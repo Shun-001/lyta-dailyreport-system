@@ -1,8 +1,10 @@
 package com.techacademy.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +14,21 @@ import org.springframework.transaction.annotation.Transactional;
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.entity.Employee;
 import com.techacademy.entity.Project;
+import com.techacademy.repository.EmployeeRepository;
 import com.techacademy.repository.ProjectRepository;
 
 @Service
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final EmployeeRepository employeeRepository;
     //private final PasswordEncoder passwordEncoder;
     private final EmployeeService employeeService;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository, EmployeeService employeeService) {
+    public ProjectService(ProjectRepository projectRepository, EmployeeRepository employeeRepository, EmployeeService employeeService) {
         this.projectRepository = projectRepository;
+        this.employeeRepository = employeeRepository;
         this.employeeService = employeeService;
     }
 
@@ -35,11 +40,14 @@ public class ProjectService {
     @Transactional
     public ErrorKinds save(Project project, String members) {
 
+        List<String> memberIdList = new ArrayList<>();
         // employeeのprojectフィールドにprojectを格納
-        List<String> memberIdList = Arrays.asList(members.split(","));
-        for(String id : memberIdList) {
-            Employee emp = employeeService.findByCode(id);
-            emp.setProject(project);
+        if(Objects.nonNull(members)) {
+            memberIdList = Arrays.asList(members.split(","));
+            for(String id : memberIdList) {
+                Employee emp = employeeService.findByCode(id);
+                emp.setProject(project);
+            }
         }
 
         project.setDeleteFlg(false);
@@ -88,11 +96,28 @@ public class ProjectService {
 
 
     /**
-     * 日報一覧表示処理
+     * プロジェクト一覧表示処理
      * @return
      */
     public List<Project> findAll() {
         return projectRepository.findAll();
+    }
+
+
+    public List<Employee> findByProjectId(Integer projectId) {
+
+        List<Employee> allEmployees = employeeRepository.findAll();
+        List<Employee> members = new ArrayList<Employee>();
+        for(Employee employee : allEmployees) {
+            // getProjectがnullになる
+            if(Objects.nonNull(employee.getProject()))  {
+                if(employee.getProject().getId().equals(projectId)) {
+                    members.add(employee);
+                }
+            }
+        }
+        return members;
+
     }
 
     /**

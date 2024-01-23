@@ -56,8 +56,9 @@ public class ProjectController {
      * @return
      */
     @GetMapping(value = "/{id}/")
-    public String detail(@PathVariable Integer id, Employee employee, Model model) {
+    public String detail(@PathVariable Integer id, Model model) {
 
+        model.addAttribute("members", projectService.findByProjectId(id));
         model.addAttribute("project", projectService.findById(id));
 
         return "projects/detail";
@@ -132,14 +133,14 @@ public class ProjectController {
      * @return
      */
     @PostMapping(value = "/{id}/delete")
-    public String delete(@PathVariable Integer id, Employee employee, Model model) {
+    public String delete(@PathVariable Integer id, Model model) {
 
         ErrorKinds result = projectService.delete(id);
 
         if (ErrorMessage.contains(result)) {
             model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
             model.addAttribute("project", projectService.findById(id));
-            return detail(id, employee, model);
+            return detail(id, model);
         }
 
         return "redirect:/projects";

@@ -40,15 +40,30 @@
                                         <th>期間(To)</th>
                                         <td class="align-middle" th:text="${#temporals.format(project.termTo, 'yyyy-MM-dd')}"></td>
                                     </tr>
+
                                     <tr>
                                         <th>メンバー</th>
-                                        <!--選択肢はデータベースに登録されているプロジェクトメンバーを表示したい-->
+                                        <th></th>
+                                    </tr>
 
+                                    <tr>
+                                        <td>社員番号</td>
+                                        <td>氏名</td>
                                     </tr>
-                                    <tr th:each="member:${members}">
-                                        <td class="align-middle" th:text="${project.employee.code}"></td>
-                                        <td class="align-middle" th:text="${project.employee.name}"></td>
-                                    </tr>
+
+                                    <!-- スクロールさせたい -->
+                                    <th:block th:if="${!(#lists.isEmpty(members))}" class="can-scroll">
+                                        <tr th:each="employee:${members}">
+                                            <td class="align-middle" th:text="${employee.code}"></td>
+                                            <td class="align-middle" th:text="${employee.name}"></td>
+                                        </tr>
+                                    </th:block>
+
+                                    <th:block th:if="${#lists.isEmpty(members)}">
+                                            <td></td>
+                                            <td class="align-middle" th:text="メンバーがいません"></td>
+                                    </th:block>
+
                                     <tr>
                                         <th>登録日時</th>
                                         <td class="align-middle" th:text="${#temporals.format(project.createdAt, 'yyyy-MM-dd hh:mm:ss')}"></td>

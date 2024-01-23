@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="utf-8">
-    <title th:text="プロジェクト新規登録"></title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/additional.css}" >
-    <script defer th:src="@{/js/bootstrap.min.js}"></script>
-</head>
+<!-- <head th:replace="common/header :: head_fragment(title=プロジェクト新規登録)"></head> では警告が出る -->
+<head th:replace="~{common/header :: head_fragment(title=プロジェクト新規登録)}"></head>
 
 <body class="h-100 overflow-hidden">
     <div class="row h-100">
@@ -70,14 +65,14 @@
                                         <p class="mb-1"></p>
                                         <div class="col-md-7" id="employeeTable">
                                             <table class="table table-striped w-100">
-                                                <thead>
+                                                <thead class="sticky">
                                                     <tr>
-                                                        <th style="width: 20px;"></th>
-                                                        <th style="width: 100px;">社員番号</th>
-                                                        <th style="width: 200px;">氏名</th>
+                                                        <td style="width: 20px;"></td>
+                                                        <td style="width: 100px;">社員番号</td>
+                                                        <td style="width: 200px;">氏名</td>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody class="sticky can-scroll">
                                                         <tr th:each="employee:${employeeList}">
                                                             <td><input type="checkbox" th:field="*{members}" th:value="${employee.code}"></td>
                                                             <td class="align-middle" th:text="${employee.code}" style="width: 100px;"></td>

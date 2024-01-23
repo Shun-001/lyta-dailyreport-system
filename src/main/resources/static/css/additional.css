@@ -1,12 +1,13 @@
 @charset "utf-8";
 
-thead, tbody {
-  display: block;
+
+
+.sticky {
+    display: block;
 }
 
-tbody {
+.can-scroll {
   overflow-x: hidden;
   overflow-y: scroll;
   height: 100px;
-
 }
