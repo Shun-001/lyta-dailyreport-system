@@ -43,25 +43,24 @@
 
                                     <tr>
                                         <th>メンバー</th>
-                                        <th></th>
-                                    </tr>
-
-                                    <tr>
-                                        <td>社員番号</td>
-                                        <td>氏名</td>
+                                        <th:block th:if="${#lists.isEmpty(members)}">
+                                            <td class="align-middle" th:text="メンバーがいません"></td>
+                                        </th:block>
+                                        <th:block th:if="${!(#lists.isEmpty(members))}">
+                                            <th></th>
+                                        </th:block>
                                     </tr>
 
                                     <!-- スクロールさせたい -->
-                                    <th:block th:if="${!(#lists.isEmpty(members))}" class="can-scroll">
+                                    <th:block th:if="${!(#lists.isEmpty(members))}">
+                                        <tr>
+                                            <td>社員番号</td>
+                                            <td>氏名</td>
+                                        </tr>
                                         <tr th:each="employee:${members}">
                                             <td class="align-middle" th:text="${employee.code}"></td>
                                             <td class="align-middle" th:text="${employee.name}"></td>
                                         </tr>
-                                    </th:block>
-
-                                    <th:block th:if="${#lists.isEmpty(members)}">
-                                            <td></td>
-                                            <td class="align-middle" th:text="メンバーがいません"></td>
                                     </th:block>
 
                                     <tr>

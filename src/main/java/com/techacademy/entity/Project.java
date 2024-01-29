@@ -70,7 +70,7 @@ public class Project {
      * 日付の前後チェック
      * @return
      */
-    @AssertTrue(message = "開始日(From)は終了日(To)以前の日付を入力してください")
+    @AssertTrue(message = "開始日は終了日以前の日付を入力してください")
     public boolean isDateValid() {
         if (termFrom.isBefore(termTo)) {
             return true;

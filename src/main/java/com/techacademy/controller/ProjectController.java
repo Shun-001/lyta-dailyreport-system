@@ -153,9 +153,11 @@ public class ProjectController {
     @GetMapping(value = "/{id}/update")
     public String edit(@PathVariable int id, Model model) {
 
+        model.addAttribute("project", projectService.findById(id));
+
         List<Employee> employeeList = employeeService.findAll();
         model.addAttribute("employeeList", employeeList);
-        model.addAttribute("project", projectService.findById(id));
+        //model.addAttribute("memberList", projectService.findByProjectId(id));
 
         return "projects/update";
     }
@@ -164,23 +166,10 @@ public class ProjectController {
      * プロジェクト更新処理
      */
     @PostMapping(value = "/{id}/update")
-    public String update(@Validated Project project, BindingResult res, Model model) {
+    public String update(@Validated Project project, String members, BindingResult res, Model model) {
 
-/*
-        // 同じ日付の日報がないかチェック
-        List<Report> reportList = projectService.findByEmployeeCode(project.getEmployee_code());
+        // プロジェクトコードは変更不可にする？
 
-        reportList.remove(projectService.findById(project.getId()));
-        for(Report s : reportList){
-            if(s.getReport_date().equals(project.getReport_date())) {
-                model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
-                        ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
-
-                return edit(project.getId(), model);
-            }
-
-        }
-*/
         // 入力チェック
         if (res.hasErrors()) {
 
